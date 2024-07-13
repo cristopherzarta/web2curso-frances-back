@@ -27,11 +27,9 @@ router.post("/", async (req, res) => {
     });
   }
 
-  const course = new Course(
-    {
+  const course = new Course({
     name,
-  }
-);
+  });
 
   try {
     const newCourse = await course.save();
