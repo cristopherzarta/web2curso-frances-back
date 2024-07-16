@@ -31,7 +31,7 @@ jobs:
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: release.zip
@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: node-app
 
@@ -55,15 +55,15 @@ jobs:
         run: unzip release.zip
       
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9A28D16BE1D4452BA769B09669F57DE7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_21D42649E4D14D8F976F1B40AC1DD7EE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_20DFADEB06284B3B957115495A069DD9 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_04DE5710EE194287A9AE8E79E02C5E09 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B092E6E8AC344D1F90CD69FFC8D328D7 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B301DE538E7748B1ABAFD7E30E3C05F5 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'web-curso-frances'
           slot-name: 'Production'
