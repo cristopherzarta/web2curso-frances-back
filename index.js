@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const passport = require('passport')
+const passport = require('./passport')
 
 //Usamos express para los middleware
 app.use(cors());
