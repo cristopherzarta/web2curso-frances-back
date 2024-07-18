@@ -8,6 +8,7 @@ const jwtExtractor = (req) => {
   if (req && req.headers["authorization"]) {
     token = req.headers["authorization"].split(" ")[1];
   }
+  console.log({ token });
   return token;
 };
 
@@ -16,9 +17,10 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: jwtExtractor,
-      secretOrKey: "ddfdfffkadsiqnzckafpflañfqeeuiosn",
+      secretOrKey: process.env.JWT_SECRET_KEY,
     },
     async function (jwt_payload, done) {
+      console.log({ jwt_payload, done });
       try {
         const foundUser = await User.findOne({ id: jwt_payload.sub });
         done(null, foundUser);

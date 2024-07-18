@@ -37,10 +37,20 @@ app.get(
   }),
   function (req, res) {
     console.log({  user: req.user });
+    const { _id, firstname, lastname, email, pictureUrl } = req.user
     // Successful authentication, redirect home.
-    const jwt = generateJWT(req.user);
+    const userData = {
+      sub: _id,
+      firstname, 
+      lastname, 
+      email, 
+      pictureUrl, 
+     
+    }
+    const jwt = generateJWT(userData);
+    const login_info = JSON.stringify({ jwt, user: userData })
     console.log({ jwt });
-    res.redirect(`http://localhost:3000/profile?jwt=${jwt}`);
+    res.redirect(`http://localhost:3000/profile?login_info=${login_info}`);
   }
 );
 
