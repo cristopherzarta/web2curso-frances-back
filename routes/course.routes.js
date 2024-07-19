@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Course = require("../models/course");
+const passport = require('passport')
 
 //obtener las curso
 
@@ -9,15 +10,18 @@ const Course = require("../models/course");
   res.send("Hello World!");
 });*/
 
-router.get("/", async (req, res) => {
-  try {
-    const courses = await Course.find();
-    res.status(200).json({ ok: true, data: courses });
-  } catch (error) {
-    console.log({ error });
-    res.status(400).json({ ok: false, error });
-  }
-});
+router.get("/",
+   async (req, res) => {
+    console.log('holaaaa')
+    try {
+      const courses = await Course.find();
+      res.status(200).json({ ok: true, data: courses });
+    } catch (error) {
+      console.log({ error });
+      res.status(400).json({ ok: false, error });
+    }
+  })
+
 
 router.post("/", async (req, res) => {
   const { name } = req?.body;
