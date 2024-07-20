@@ -1,5 +1,5 @@
 // const { Schema } = require("mongoose");
-const { Schema } = require ('mongoose')
+const { Schema } = require("mongoose");
 const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema(
@@ -7,7 +7,14 @@ const courseSchema = new mongoose.Schema(
     name: String,
     thumbnail: String,
     description: String,
-    videos: [{ title: String, videoUrl: String, duration: String }],
+    sections: [
+      {
+        name: String,
+        recordeAt: String,
+        recordingday: String,
+        videos: [{ title: String, videoUrl: String, duration: String }],
+      },
+    ],
   },
   {
     timestamps: true,
