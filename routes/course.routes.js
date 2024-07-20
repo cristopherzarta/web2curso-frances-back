@@ -21,6 +21,19 @@ router.get("/",
       res.status(400).json({ ok: false, error });
     }
   })
+router.get("/:id",
+   async (req, res) => {
+
+   const { id } = req.params
+   console.log({ id })
+    try {
+      const course = await Course.findById(id);
+      res.status(200).json({ ok: true, data: course });
+    } catch (error) {
+      console.log({ error });
+      res.status(400).json({ ok: false, error });
+    }
+  })
 
 
 router.post("/", async (req, res) => {
