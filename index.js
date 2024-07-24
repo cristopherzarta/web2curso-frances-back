@@ -10,6 +10,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("./passport");
 const generateJWT = require("./helpers/generateJWT");
+const path = require("path")
+
+//app.use(express.static(path.join(__dirname, './google')));
+
+
 
 //Usamos express para los middleware
 app.use(cors());

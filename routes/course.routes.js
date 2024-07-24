@@ -4,13 +4,14 @@ const Course = require("../models/course");
 const passport = require("passport");
 const Sale = require("../models/sales");
 const { default: mongoose } = require("mongoose");
+const fs = require("fs");
 
 //obtener las curso
 
-/*router.get("/", (req, res) => {
-  console.log(`Esto es un log del entorno: ${process.env.NODE_ENV}`);
-  res.send("Hello World!");
-});*/
+router.get("/", (req, res) => {
+  const fullPath = path.join(__dirname, "./google/google41ce8fbc63aa9a99.html");
+  res.sendFile(fullPath);
+});
 
 router.get("/", async (req, res) => {
   console.log("holaaaa");
