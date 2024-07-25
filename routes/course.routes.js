@@ -8,19 +8,7 @@ const fs = require("fs");
 
 //obtener las curso
 
-router.get("/google41ce8fbc63aa9a99.html", (req, res) => {
-  res.sendFile(
-    "google41ce8fbc63aa9a99.html",
-    { root: path.join(__dirname) },
-    (err) => {
-      if (err) {
-        next(err);
-      } else {
-        console.log("File SENT");
-      }
-    }
-  );
-});
+
 
 router.get("/", async (req, res) => {
   console.log("holaaaa");

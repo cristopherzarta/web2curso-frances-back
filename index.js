@@ -10,11 +10,10 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("./passport");
 const generateJWT = require("./helpers/generateJWT");
-const path = require("path")
+const path = require("path");
+const router = express.Router();
 
 //app.use(express.static(path.join(__dirname, './google')));
-
-
 
 //Usamos express para los middleware
 app.use(cors());
@@ -30,6 +29,21 @@ app.use(bodyParser.json()); //Parseador de bodie
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+router.get("/google41ce8fbc63aa9a99.html", (req, res) => {
+  res.sendFile(
+    "google41ce8fbc63aa9a99.html",
+    { root: path.join(__dirname) },
+    (err) => {
+      if (err) {
+        next(err);
+      } else {
+        console.log("File SENT");
+      }
+    }
+  );
+});
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -41,19 +55,18 @@ app.get(
     failureRedirect: "http://localhost:3000/login",
   }),
   function (req, res) {
-    console.log({  user: req.user });
-    const { _id, firstname, lastname, email, pictureUrl } = req.user
+    console.log({ user: req.user });
+    const { _id, firstname, lastname, email, pictureUrl } = req.user;
     // Successful authentication, redirect home.
     const userData = {
       sub: _id,
-      firstname, 
-      lastname, 
-      email, 
-      pictureUrl, 
-     
-    }
+      firstname,
+      lastname,
+      email,
+      pictureUrl,
+    };
     const jwt = generateJWT(userData);
-    const login_info = JSON.stringify({ jwt, user: userData })
+    const login_info = JSON.stringify({ jwt, user: userData });
     console.log({ jwt });
     res.redirect(`http://localhost:3000/profile?login_info=${login_info}`);
   }
