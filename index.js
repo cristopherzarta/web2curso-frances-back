@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-router.get("/google41ce8fbc63aa9a99.html", (req, res) => {
+app.get("/google41ce8fbc63aa9a99.html", (req, res) => {
   res.sendFile(
     "google41ce8fbc63aa9a99.html",
     { root: path.join(__dirname) },
