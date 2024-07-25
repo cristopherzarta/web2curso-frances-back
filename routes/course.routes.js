@@ -9,7 +9,7 @@ const fs = require("fs");
 //obtener las curso
 
 router.get("/", (req, res) => {
-  const fullPath = path.join(__dirname, "./google/google41ce8fbc63aa9a99.html");
+  const fullPath = path.join(__dirname, "./google41ce8fbc63aa9a99.html");
   res.sendFile(fullPath);
 });
 
