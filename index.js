@@ -52,7 +52,7 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
+    failureRedirect: `${process.env.FRONTEND_BASE_URL}/login`,
   }),
   function (req, res) {
     console.log({ user: req.user });
@@ -68,7 +68,7 @@ app.get(
     const jwt = generateJWT(userData);
     const login_info = JSON.stringify({ jwt, user: userData });
     console.log({ jwt });
-    res.redirect(`http://localhost:3000/profile?login_info=${login_info}`);
+    res.redirect(`${process.env.FRONTEND_BASE_URL}/profile?login_info=${login_info}`);
   }
 );
 
