@@ -29,7 +29,6 @@ app.use(bodyParser.json()); //Parseador de bodie
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.get("/google41ce8fbc63aa9a99.html", (req, res) => {
   res.sendFile(
     "google41ce8fbc63aa9a99.html",
@@ -68,7 +67,9 @@ app.get(
     const jwt = generateJWT(userData);
     const login_info = JSON.stringify({ jwt, user: userData });
     console.log({ jwt });
-    res.redirect(`${process.env.FRONTEND_BASE_URL}/profile?login_info=${login_info}`);
+    res.redirect(
+      `${process.env.FRONTEND_BASE_URL}/profile?login_info=${login_info}`
+    );
   }
 );
 

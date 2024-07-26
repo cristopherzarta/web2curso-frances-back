@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
   try {
     let hasBoughtTheCourse = false;
 
-    if (mongoose.inValidObjectId(user_id)) {
+    if (mongoose.isValidObjectId(user_id)) {
       const foundCourse = await Sale.exists({
         course: id,
         user: user_id,
