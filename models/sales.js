@@ -13,6 +13,9 @@ const saleSchema = new mongoose.Schema(
       ref: 'Course',
     },
     amount: Number,
+    order_id: String,
+    order_status: String,
+    payer: Schema.Types.Mixed,
     
   },
   

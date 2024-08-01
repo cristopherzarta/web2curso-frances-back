@@ -3,12 +3,10 @@ const router = express.Router();
 const Course = require("../models/course");
 const passport = require("passport");
 const Sale = require("../models/sales");
-const { default: mongoose } = require("mongoose");
+const  mongoose  = require("mongoose");
 const fs = require("fs");
 
 //obtener las curso
-
-
 
 router.get("/", async (req, res) => {
   console.log("holaaaa");
@@ -20,6 +18,7 @@ router.get("/", async (req, res) => {
     res.status(400).json({ ok: false, error });
   }
 });
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const { user_id } = req.query;
@@ -31,15 +30,18 @@ router.get("/:id", async (req, res) => {
       const foundCourse = await Sale.exists({
         course: id,
         user: user_id,
+        order_status: "COMPLETED",
       });
       hasBoughtTheCourse = !!foundCourse;
     }
+
+    const howManySales = await Sale.countDocuments({ course: id });
 
     const course = await Course.findById(id);
 
     res.status(200).json({
       ok: true,
-      data: { ...course.toObject(), hasBoughtTheCourse },
+      data: { ...course.toObject(), hasBoughtTheCourse, howManySales },
     });
   } catch (error) {
     console.log({ error });
