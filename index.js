@@ -1,17 +1,20 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const { config } = require("dotenv");
 config();
 
-const courseRoutes = require("./routes/course.routes");
+const courseRoutes = require("./routes/courses");
+const paypalRoutes = require("./routes/paypal");
+const authRoutes = require("./routes/auth");
 const app = express();
-const PORT = process.env.PORT || 4000;
+
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("./passport");
-const generateJWT = require("./helpers/generateJWT");
 const path = require("path");
+
+const dbConnect = require("./db");
 const router = express.Router();
+
 
 //app.use(express.static(path.join(__dirname, './google')));
 
@@ -20,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 app.use(
   require("express-session")({
-    secret: "sjsjaieieskskdkd",
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
   })
@@ -28,6 +31,14 @@ app.use(
 app.use(bodyParser.json()); //Parseador de bodie
 app.use(passport.initialize());
 app.use(passport.session());
+
+//ROUTES
+
+app.use('/courses', courseRoutes )
+app.use('/paypal', paypalRoutes )
+app.use('/auth', authRoutes )
+
+//GOOGLE DOMAIN VERIFICATION
 
 app.get("/google41ce8fbc63aa9a99.html", (req, res) => {
   res.sendFile(
@@ -43,45 +54,6 @@ app.get("/google41ce8fbc63aa9a99.html", (req, res) => {
   );
 });
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: `${process.env.FRONTEND_BASE_URL}/login`,
-  }),
-  function (req, res) {
-    console.log({ user: req.user });
-    const { _id, firstname, lastname, email, pictureUrl } = req.user;
-    // Successful authentication, redirect home.
-    const userData = {
-      sub: _id,
-      firstname,
-      lastname,
-      email,
-      pictureUrl,
-    };
-    const jwt = generateJWT(userData);
-    const login_info = JSON.stringify({ jwt, user: userData });
-    console.log({ jwt });
-    res.redirect(
-      `${process.env.FRONTEND_BASE_URL}/profile?login_info=${login_info}`
-    );
-  }
-);
-
 //Aca conectaremos la base de datos
 
-mongoose.connect(process.env.MONGO_DB_URL, {
-  dbName: process.env.MONGO_DB_NAME,
-});
-const db = mongoose.connection;
-
-app.use("/courses", courseRoutes);
-
-app.listen(PORT, () => {
-  console.log(`App escuchando en puerto ${PORT}`);
-});
+dbConnect(app);
