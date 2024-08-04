@@ -4,6 +4,7 @@ const passport = require("passport");
 const Sale = require("../models/sales");
 const fs = require("fs");
 const { createOrder, capturePayment } = require("../helpers/paypal");
+const Notification = require("../models/notification");
 
 //obtener las curso
 
@@ -33,5 +34,14 @@ router.post("/orders/:orderID/capture", async (req, res) => {
   res.json(captureData);
 });
 
+router.post("/webhook", async (req, res) => {
+  res.status(200).send()
+  await Notification.create({
+    params: req.params,
+    body: req.body,
+    query: req.query,
+  });
+  
+});
 
 module.exports = router;
