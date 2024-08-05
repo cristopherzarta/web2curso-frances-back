@@ -13,6 +13,7 @@ const saleSchema = new Schema(
       ref: 'Course',
     },
     amount: Number,
+    webhookReceived: Boolean,
     order_id: String,
     order_status: String,
     payer: Schema.Types.Mixed,

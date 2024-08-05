@@ -38,6 +38,16 @@ router.post("/webhook", async (req, res) => {
   res.status(200).send()
 
   console.log("NOTIFICATION RECIBIDA")
+
+  if(req.body.event_type === "PAYMENT.CAPTURE.COMPLETED") {
+    const order_id = req.body.resource.supplementary_data.related_ids.order_id
+    await Sale.findOneAndUpdate(
+      { order_id },
+      { webhookReceived: true, order_status: "COMPLETED" }
+    );
+  }
+
+
   await Notification.create({
     params: req.params,
     body: req.body,
