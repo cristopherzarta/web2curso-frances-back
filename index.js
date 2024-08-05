@@ -34,9 +34,9 @@ app.use(passport.session());
 
 //ROUTES
 
-app.use('/courses', courseRoutes )
-app.use('/paypal', paypalRoutes )
-app.use('/auth', authRoutes )
+app.use('/courses', courseRoutes)
+app.use('/paypal', paypalRoutes)
+app.use('/auth', authRoutes)
 
 //GOOGLE DOMAIN VERIFICATION
 

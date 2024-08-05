@@ -36,6 +36,8 @@ router.post("/orders/:orderID/capture", async (req, res) => {
 
 router.post("/webhook", async (req, res) => {
   res.status(200).send()
+
+  console.log("NOTIFICATION RECIBIDA")
   await Notification.create({
     params: req.params,
     body: req.body,
