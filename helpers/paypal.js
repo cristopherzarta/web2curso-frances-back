@@ -1,11 +1,11 @@
 const axios = require("axios");
 
-const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_BASE_URL } = process.env;
-const BASE_URL = "https://api-m.sandbox.paypal.com";
+const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_BASE_URL } = process.env
 
-const createOrder = async () => {
+
+const createOrder = async (price) => {
   const accessToken = await generateAccessToken();
-  const url = `${BASE_URL}/v2/checkout/orders`;
+  const url = `${PAYPAL_BASE_URL}/v2/checkout/orders`;
   const { data } = await axios({
     url,
     method: "POST",
@@ -31,7 +31,7 @@ const createOrder = async () => {
 
 const capturePayment = async (orderId) => {
   const accessToken = await generateAccessToken();
-  const url = `${BASE_URL}/v2/checkout/orders/${orderId}/capture`;
+  const url = `${PAYPAL_BASE_URL}/v2/checkout/orders/${orderId}/capture`;
   const { data } = await axios({
     url,
     method: "POST",
@@ -40,8 +40,30 @@ const capturePayment = async (orderId) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+  console.log({ data: data.purchase_units[0] })
   return data;
-};
+}
+
+const refundPayment = async (captureId) => {
+  const accessToken = await generateAccessToken();
+  console.log({ accessToken, captureId })
+  const url = `${PAYPAL_BASE_URL}/v2/payments/captures/${captureId}/refund`;
+
+  try {
+    const response = await axios({
+      url,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+       },
+     });
+     console.log({ response })
+    return response.data;
+  } catch (error) {
+    console.log({ error: error.response.data })    
+  }
+}
 
 async function generateAccessToken() {
   const auth = Buffer.from(PAYPAL_CLIENT_ID + ":" + PAYPAL_APP_SECRET).toString(
@@ -50,7 +72,7 @@ async function generateAccessToken() {
 
   try {
     const { data } = await axios({
-      url: `${BASE_URL}/v1/oauth2/token`,
+      url: `${PAYPAL_BASE_URL}/v1/oauth2/token`,
       method: "POST",
       data: "grant_type=client_credentials",
       headers: {
@@ -66,4 +88,6 @@ async function generateAccessToken() {
 module.exports = {
   createOrder,
   capturePayment,
+  refundPayment,
+
 };
