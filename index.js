@@ -1,16 +1,17 @@
 const express = require("express");
 const { config } = require("dotenv");
 config();
+const app = express();
+const cors = require("cors");
 
+const usersRoutes = require("./routes/users");
 const courseRoutes = require("./routes/courses");
 const paypalRoutes = require("./routes/paypal");
 const authRoutes = require("./routes/auth");
-const app = express();
-
-const cors = require("cors");
-const bodyParser = require("body-parser");
 const passport = require("./passport");
 const path = require("path");
+
+const bodyParser = require("body-parser");
 
 const dbConnect = require("./db");
 const router = express.Router();
@@ -34,6 +35,7 @@ app.use(passport.session());
 
 //ROUTES
 
+app.use('/users', usersRoutes)
 app.use('/courses', courseRoutes)
 app.use('/paypal', paypalRoutes)
 app.use('/auth', authRoutes)

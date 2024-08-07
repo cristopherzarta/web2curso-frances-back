@@ -1,10 +1,9 @@
 const express = require("express");
+const  mongoose  = require("mongoose");
 const router = express.Router();
 const Course = require("../models/course");
-const passport = require("passport");
 const Sale = require("../models/sales");
-const  mongoose  = require("mongoose");
-const fs = require("fs");
+
 
 //obtener las curso
 
@@ -24,15 +23,16 @@ router.get("/:id", async (req, res) => {
   const { user_id } = req.query;
   console.log({ user_id, id });
   try {
-    let hasBoughtTheCourse = false;
+    let hasBoughtTheCourse = false
+    let foundSale
 
     if (mongoose.isValidObjectId(user_id)) {
-      const foundCourse = await Sale.exists({
+      foundSale = await Sale.findOne({
         course: id,
         user: user_id,
         order_status: "COMPLETED",
       });
-      hasBoughtTheCourse = !!foundCourse;
+      hasBoughtTheCourse = !!foundSale;
     }
 
     const howManySales = await Sale.countDocuments({ course: id });
@@ -41,7 +41,12 @@ router.get("/:id", async (req, res) => {
 
     res.status(200).json({
       ok: true,
-      data: { ...course.toObject(), hasBoughtTheCourse, howManySales },
+      data: {
+        ...course.toObject(),
+        hasBoughtTheCourse,
+        howManySales,
+        capture_id: foundSale?.capture_id,
+      },
     });
   } catch (error) {
     console.log({ error });
