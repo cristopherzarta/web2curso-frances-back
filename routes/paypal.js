@@ -2,11 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const Sale = require("../models/sales");
-const {
-  createOrder,
-  capturePayment,
-  refundPayment,
-} = require("../helpers/paypal");
+const { createOrder, capturePayment, refundPayment,} = require("../helpers/paypal");
 const Notification = require("../models/notification");
 
 //obtener las curso

@@ -8,7 +8,7 @@ const Sale = require("../models/sales");
 //obtener las curso
 
 router.get("/", async (req, res) => {
-  console.log("holaaaa");
+  console.log("holaaaa, los sueños se pueden realizar");
   try {
     const courses = await Course.find();
     res.status(200).json({ ok: true, data: courses });
@@ -20,8 +20,13 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  const { user_id } = req.query;
-  console.log({ user_id, id });
+  const  user_id  = req.query.user_id
+
+  //console.log(req.query);
+ 
+  console.log({ user_id, id })
+ // console.log( `user_id: ${user_id}` )
+  
   try {
     let hasBoughtTheCourse = false
     let foundSale

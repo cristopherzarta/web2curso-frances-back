@@ -1,11 +1,12 @@
 const axios = require("axios");
 
-const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_BASE_URL } = process.env
-
+const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_BASE_URL } = process.env;
 
 const createOrder = async (price) => {
   const accessToken = await generateAccessToken();
   const url = `${PAYPAL_BASE_URL}/v2/checkout/orders`;
+  console.log({ accessToken });
+
   const { data } = await axios({
     url,
     method: "POST",
@@ -40,13 +41,13 @@ const capturePayment = async (orderId) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  console.log({ data: data.purchase_units[0] })
+  // console.log({ data: data.purchase_units[0] })
   return data;
-}
+};
 
 const refundPayment = async (captureId) => {
   const accessToken = await generateAccessToken();
-  console.log({ accessToken, captureId })
+  // console.log({ accessToken, captureId })
   const url = `${PAYPAL_BASE_URL}/v2/payments/captures/${captureId}/refund`;
 
   try {
@@ -56,14 +57,14 @@ const refundPayment = async (captureId) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
-       },
-     });
-     console.log({ response })
+      },
+    });
+    // console.log({ response })
     return response.data;
   } catch (error) {
-    console.log({ error: error.response.data })    
+    //  console.log({ error: error.response.data })
   }
-}
+};
 
 async function generateAccessToken() {
   const auth = Buffer.from(PAYPAL_CLIENT_ID + ":" + PAYPAL_APP_SECRET).toString(
@@ -81,7 +82,7 @@ async function generateAccessToken() {
     });
     return data.access_token;
   } catch (error) {
-    console.log({ error });
+    // console.log({ error });
   }
 }
 
@@ -89,5 +90,4 @@ module.exports = {
   createOrder,
   capturePayment,
   refundPayment,
-
 };

@@ -20,8 +20,7 @@ passport.use(
       secretOrKey: process.env.JWT_SECRET_KEY,
     },
     async function (jwt_payload, done) {
-    
-      try {
+        try {
         const foundUser = await User.findOne({ _id: jwt_payload.sub });
         done(null, foundUser);
       } catch (error) {
