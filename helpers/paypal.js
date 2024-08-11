@@ -1,5 +1,4 @@
 const axios = require("axios");
-
 const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_BASE_URL } = process.env;
 
 const createOrder = async (price) => {
@@ -41,7 +40,7 @@ const capturePayment = async (orderId) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  // console.log({ data: data.purchase_units[0] })
+   console.log({ data })
   return data;
 };
 
@@ -82,7 +81,7 @@ async function generateAccessToken() {
     });
     return data.access_token;
   } catch (error) {
-    // console.log({ error });
+    console.log({ error });
   }
 }
 

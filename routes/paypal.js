@@ -73,7 +73,7 @@ router.post("/webhook", async (req, res) => {
 
   console.log("NOTIFICATION RECIBIDA");
 
-  if (req.body.event_type === "PAYMENT.CAPTURE.COMPLETED") {
+  if(req.body.event_type === "PAYMENT.CAPTURE.COMPLETED") {
     const resource = req.body.resource;
     const order_id = resource.supplementary_data.related_ids.order_id;
     await Sale.findOneAndUpdate(
