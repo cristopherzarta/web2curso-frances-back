@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const Sale = require("../models/sales");
-const { createOrder, capturePayment, refundPayment,} = require("../helpers/paypal");
+const {
+  createOrder,
+  capturePayment,
+  refundPayment,
+} = require("../helpers/paypal");
 const Notification = require("../models/notification");
 
 //obtener las curso
@@ -24,6 +28,7 @@ router.post("/orders", passport.authenticate("jwt"), async (req, res) => {
 router.post("/orders/:orderID/capture", async (req, res) => {
   const { orderID } = req.params;
   const captureData = await capturePayment(orderID);
+  //console.log({ payments: captureData.payment_source.paypal})
   const capture_id = captureData.purchase_units[0].payments.captures[0].id;
   await Sale.findOneAndUpdate(
     { order_id: orderID },
@@ -47,7 +52,7 @@ router.post(
       await refundPayment(captureID);
       /*console.log({ refundData });*/
       await Sale.findOneAndUpdate(
-        { capture_id: orderID },
+        { capture_id: captureID },
         {
           order_status: "REFUNDED",
         }
@@ -56,7 +61,7 @@ router.post(
       res.json({
         ok: true,
         message:
-          "Pago devuelto con exito! Lamento que el curso no haya cumpllido tus expectativas 😢",
+          "Pago devuelto con éxito! Lamento que el curso no haya cumplido tus expectativas 😢",
       });
     } catch (err) {
       res.status({
@@ -73,7 +78,7 @@ router.post("/webhook", async (req, res) => {
 
   console.log("NOTIFICATION RECIBIDA");
 
-  if(req.body.event_type === "PAYMENT.CAPTURE.COMPLETED") {
+  if (req.body.event_type === "PAYMENT.CAPTURE.COMPLETED") {
     const resource = req.body.resource;
     const order_id = resource.supplementary_data.related_ids.order_id;
     await Sale.findOneAndUpdate(
@@ -81,7 +86,7 @@ router.post("/webhook", async (req, res) => {
       {
         webhookReceived: true,
         order_status: "COMPLETED",
-        paypal_links: req.body.resource.links,
+        paypal_links: resource.links,
       }
     );
   }

@@ -42,7 +42,7 @@ router.get("/:id", async (req, res) => {
 
     const howManySales = await Sale.countDocuments({ course: id });
 
-    const course = await Course.findById(id);
+    const course = await Course.findById(id)
 
     res.status(200).json({
       ok: true,
