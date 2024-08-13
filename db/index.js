@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT 
 
 const dbConnect = (app) => {
-
-    mongoose.connect(process.env.MONGO_DB_URL, {
+    mongoose.
+    connect(process.env.MONGO_DB_URL, {
         dbName: process.env.MONGO_DB_NAME,
       });
       const db = mongoose.connection;
