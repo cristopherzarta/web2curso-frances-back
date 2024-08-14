@@ -2,7 +2,7 @@
 const { Schema } = require ('mongoose')
 const mongoose = require("mongoose");
 
-const saleSchema = new mongoose.Schema(
+const saleSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -13,8 +13,11 @@ const saleSchema = new mongoose.Schema(
       ref: 'Course',
     },
     amount: Number,
+    webhookReceived: Boolean,
     order_id: String,
+    capture_id: String,
     order_status: String,
+    paypal_links: Schema.Types.Array,
     payer: Schema.Types.Mixed,
     
   },
