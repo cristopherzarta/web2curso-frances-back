@@ -20,9 +20,8 @@ passport.use(
       secretOrKey: process.env.JWT_SECRET_KEY,
     },
     async function (jwt_payload, done) {
-    
-      try {
-        const foundUser = await User.findOne({ id: jwt_payload.sub });
+        try {
+        const foundUser = await User.findOne({ _id: jwt_payload.sub });
         done(null, foundUser);
       } catch (error) {
         done(error, null);
@@ -44,7 +43,7 @@ passport.use(
     async function (request, accessToken, refreshToken, profile, done) {
       try {
         const foundUser = await User.findOne({ googleId: profile.id });
-        console.log({ foundUser, profile: profile.emails[0] });
+        console.log({ profileId: profile.id });
 
         if (!!foundUser) {
           return done(null, foundUser);
