@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const pages = () => {
-  return (
-    <div>pagesasjjdkjsjdksdjjds</div>
-  )
-}
+  return <div>pagesddsaaddasdsa</div>;
+};
 
-export default pages
+export default pages;
