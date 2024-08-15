@@ -1,7 +1,7 @@
 import React from "react";
 
 const pages = () => {
-  return <div>pagesddsaaddasdsa</div>;
+  return <div>pagesd</div>;
 };
 
 export default pages;
