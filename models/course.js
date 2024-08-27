@@ -12,6 +12,7 @@ const courseSchema = new Schema(
         name: String,
         recordeAt: String,
         recordingday: String,
+        realDuration: Schema.Types.Mixed,
         videos: [{ title: String, videoUrl: String, duration: String }],
       },
     ],
